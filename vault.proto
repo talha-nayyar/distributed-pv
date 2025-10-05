@@ -1,0 +1,47 @@
+// vault.proto
+syntax = "proto3";
+
+package vault;
+
+// The service definition for the password vault
+service VaultService {
+  // Adds a secret to the vault and triggers replication
+  rpc AddSecret (AddSecretRequest) returns (AddSecretResponse) {}
+
+  // Retrieves a secret from the vault
+  rpc RetrieveSecret (RetrieveSecretRequest) returns (RetrieveSecretResponse) {}
+
+  // Internal RPC for replication
+  rpc ReplicateSecret (ReplicateSecretRequest) returns (ReplicateSecretResponse) {}
+}
+
+// ---- Message Definitions ----
+
+message AddSecretRequest {
+  string id = 1;
+  string data = 2; // JSON string containing encrypted data, nonce, and tag
+}
+
+message AddSecretResponse {
+  string id = 1;
+  string message = 2;
+}
+
+message RetrieveSecretRequest {
+  string id = 1;
+}
+
+message RetrieveSecretResponse {
+  string id = 1;
+  string data = 2;
+}
+
+// Internal replication messages
+message ReplicateSecretRequest {
+    string id = 1;
+    string data = 2;
+}
+
+message ReplicateSecretResponse {
+    bool success = 1;
+}
