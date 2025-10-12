@@ -3,45 +3,170 @@ syntax = "proto3";
 
 package vault;
 
-// The service definition for the password vault
-service VaultService {
-  // Adds a secret to the vault and triggers replication
+// ============================================================================
+// MICROSERVICES ARCHITECTURE - Each service runs independently
+// ============================================================================
+
+// Secret Management Service - Handles Add, Update, Delete operations
+service SecretManagementService {
   rpc AddSecret (AddSecretRequest) returns (AddSecretResponse) {}
-
-  // Retrieves a secret from the vault
-  rpc RetrieveSecret (RetrieveSecretRequest) returns (RetrieveSecretResponse) {}
-
-  // Internal RPC for replication
-  rpc ReplicateSecret (ReplicateSecretRequest) returns (ReplicateSecretResponse) {}
+  rpc UpdateSecret (UpdateSecretRequest) returns (UpdateSecretResponse) {}
+  rpc DeleteSecret (DeleteSecretRequest) returns (DeleteSecretResponse) {}
 }
 
-// ---- Message Definitions ----
+// Secret Retrieval Service - Handles Retrieve and List operations
+service SecretRetrievalService {
+  rpc RetrieveSecret (RetrieveSecretRequest) returns (RetrieveSecretResponse) {}
+  rpc ListSecrets (ListSecretsRequest) returns (ListSecretsResponse) {}
+}
 
+// Access Control Service - Handles Share operation
+service AccessControlService {
+  rpc ShareSecret (ShareSecretRequest) returns (ShareSecretResponse) {}
+  rpc CheckAccess (CheckAccessRequest) returns (CheckAccessResponse) {}
+}
+
+// Replication Service - Internal service for data consistency across nodes
+service ReplicationService {
+  rpc ReplicateSecret (ReplicateSecretRequest) returns (ReplicateSecretResponse) {}
+  rpc ReplicateUpdate (ReplicateUpdateRequest) returns (ReplicateUpdateResponse) {}
+  rpc ReplicateDeletion (ReplicateDeletionRequest) returns (ReplicateDeletionResponse) {}
+  rpc ReplicateShare (ReplicateShareRequest) returns (ReplicateShareResponse) {}
+}
+
+// ============================================================================
+// Message Definitions
+// ============================================================================
+
+// --- Requirement 1: Add Secret ---
 message AddSecretRequest {
-  string id = 1;
-  string data = 2; // JSON string containing encrypted data, nonce, and tag
+  string user_id = 1;
+  string secret_name = 2;
+  string data = 3; // JSON string containing encrypted data
 }
 
 message AddSecretResponse {
-  string id = 1;
+  string secret_id = 1;
   string message = 2;
+  bool success = 3;
 }
 
+// --- Requirement 2: Retrieve Secret ---
 message RetrieveSecretRequest {
-  string id = 1;
+  string user_id = 1;
+  string secret_id = 2;
 }
 
 message RetrieveSecretResponse {
-  string id = 1;
+  string secret_id = 1;
   string data = 2;
+  bool success = 3;
 }
 
-// Internal replication messages
+// --- Requirement 3: Update/Delete Secret ---
+message UpdateSecretRequest {
+  string user_id = 1;
+  string secret_id = 2;
+  string data = 3;
+}
+
+message UpdateSecretResponse {
+  string secret_id = 1;
+  string message = 2;
+  bool success = 3;
+}
+
+message DeleteSecretRequest {
+  string user_id = 1;
+  string secret_id = 2;
+}
+
+message DeleteSecretResponse {
+  string secret_id = 1;
+  string message = 2;
+  bool success = 3;
+}
+
+// --- Requirement 4: List Secrets ---
+message ListSecretsRequest {
+  string user_id = 1;
+}
+
+message SecretMetadata {
+  string secret_id = 1;
+  string secret_name = 2;
+  string created_at = 3;
+  string updated_at = 4;
+  bool is_shared = 5;
+}
+
+message ListSecretsResponse {
+  repeated SecretMetadata secrets = 1;
+  int32 total_count = 2;
+}
+
+// --- Requirement 5: Share Secret ---
+message ShareSecretRequest {
+  string owner_id = 1;
+  string secret_id = 2;
+  string target_user_id = 3;
+}
+
+message ShareSecretResponse {
+  string message = 1;
+  bool success = 2;
+}
+
+message CheckAccessRequest {
+  string user_id = 1;
+  string secret_id = 2;
+}
+
+message CheckAccessResponse {
+  bool has_access = 1;
+  string owner_id = 2;
+}
+
+// ============================================================================
+// Internal Replication Messages
+// ============================================================================
+
 message ReplicateSecretRequest {
-    string id = 1;
-    string data = 2;
+  string secret_id = 1;
+  string user_id = 2;
+  string secret_name = 3;
+  string data = 4;
+  string created_at = 5;
 }
 
 message ReplicateSecretResponse {
-    bool success = 1;
+  bool success = 1;
+}
+
+message ReplicateUpdateRequest {
+  string secret_id = 1;
+  string data = 2;
+  string updated_at = 3;
+}
+
+message ReplicateUpdateResponse {
+  bool success = 1;
+}
+
+message ReplicateDeletionRequest {
+  string secret_id = 1;
+}
+
+message ReplicateDeletionResponse {
+  bool success = 1;
+}
+
+message ReplicateShareRequest {
+  string secret_id = 1;
+  string owner_id = 2;
+  string target_user_id = 3;
+}
+
+message ReplicateShareResponse {
+  bool success = 1;
 }

@@ -25,8 +25,12 @@ if _version_not_supported:
     )
 
 
-class VaultServiceStub(object):
-    """The service definition for the password vault
+class SecretManagementServiceStub(object):
+    """============================================================================
+    MICROSERVICES ARCHITECTURE - Each service runs independently
+    ============================================================================
+
+    Secret Management Service - Handles Add, Update, Delete operations
     """
 
     def __init__(self, channel):
@@ -36,75 +40,80 @@ class VaultServiceStub(object):
             channel: A grpc.Channel.
         """
         self.AddSecret = channel.unary_unary(
-                '/vault.VaultService/AddSecret',
+                '/vault.SecretManagementService/AddSecret',
                 request_serializer=vault__pb2.AddSecretRequest.SerializeToString,
                 response_deserializer=vault__pb2.AddSecretResponse.FromString,
                 _registered_method=True)
-        self.RetrieveSecret = channel.unary_unary(
-                '/vault.VaultService/RetrieveSecret',
-                request_serializer=vault__pb2.RetrieveSecretRequest.SerializeToString,
-                response_deserializer=vault__pb2.RetrieveSecretResponse.FromString,
+        self.UpdateSecret = channel.unary_unary(
+                '/vault.SecretManagementService/UpdateSecret',
+                request_serializer=vault__pb2.UpdateSecretRequest.SerializeToString,
+                response_deserializer=vault__pb2.UpdateSecretResponse.FromString,
                 _registered_method=True)
-        self.ReplicateSecret = channel.unary_unary(
-                '/vault.VaultService/ReplicateSecret',
-                request_serializer=vault__pb2.ReplicateSecretRequest.SerializeToString,
-                response_deserializer=vault__pb2.ReplicateSecretResponse.FromString,
+        self.DeleteSecret = channel.unary_unary(
+                '/vault.SecretManagementService/DeleteSecret',
+                request_serializer=vault__pb2.DeleteSecretRequest.SerializeToString,
+                response_deserializer=vault__pb2.DeleteSecretResponse.FromString,
                 _registered_method=True)
 
 
-class VaultServiceServicer(object):
-    """The service definition for the password vault
+class SecretManagementServiceServicer(object):
+    """============================================================================
+    MICROSERVICES ARCHITECTURE - Each service runs independently
+    ============================================================================
+
+    Secret Management Service - Handles Add, Update, Delete operations
     """
 
     def AddSecret(self, request, context):
-        """Adds a secret to the vault and triggers replication
-        """
+        """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def RetrieveSecret(self, request, context):
-        """Retrieves a secret from the vault
-        """
+    def UpdateSecret(self, request, context):
+        """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def ReplicateSecret(self, request, context):
-        """Internal RPC for replication
-        """
+    def DeleteSecret(self, request, context):
+        """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
 
-def add_VaultServiceServicer_to_server(servicer, server):
+def add_SecretManagementServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'AddSecret': grpc.unary_unary_rpc_method_handler(
                     servicer.AddSecret,
                     request_deserializer=vault__pb2.AddSecretRequest.FromString,
                     response_serializer=vault__pb2.AddSecretResponse.SerializeToString,
             ),
-            'RetrieveSecret': grpc.unary_unary_rpc_method_handler(
-                    servicer.RetrieveSecret,
-                    request_deserializer=vault__pb2.RetrieveSecretRequest.FromString,
-                    response_serializer=vault__pb2.RetrieveSecretResponse.SerializeToString,
+            'UpdateSecret': grpc.unary_unary_rpc_method_handler(
+                    servicer.UpdateSecret,
+                    request_deserializer=vault__pb2.UpdateSecretRequest.FromString,
+                    response_serializer=vault__pb2.UpdateSecretResponse.SerializeToString,
             ),
-            'ReplicateSecret': grpc.unary_unary_rpc_method_handler(
-                    servicer.ReplicateSecret,
-                    request_deserializer=vault__pb2.ReplicateSecretRequest.FromString,
-                    response_serializer=vault__pb2.ReplicateSecretResponse.SerializeToString,
+            'DeleteSecret': grpc.unary_unary_rpc_method_handler(
+                    servicer.DeleteSecret,
+                    request_deserializer=vault__pb2.DeleteSecretRequest.FromString,
+                    response_serializer=vault__pb2.DeleteSecretResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'vault.VaultService', rpc_method_handlers)
+            'vault.SecretManagementService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('vault.VaultService', rpc_method_handlers)
+    server.add_registered_method_handlers('vault.SecretManagementService', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
-class VaultService(object):
-    """The service definition for the password vault
+class SecretManagementService(object):
+    """============================================================================
+    MICROSERVICES ARCHITECTURE - Each service runs independently
+    ============================================================================
+
+    Secret Management Service - Handles Add, Update, Delete operations
     """
 
     @staticmethod
@@ -121,7 +130,7 @@ class VaultService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/vault.VaultService/AddSecret',
+            '/vault.SecretManagementService/AddSecret',
             vault__pb2.AddSecretRequest.SerializeToString,
             vault__pb2.AddSecretResponse.FromString,
             options,
@@ -133,6 +142,124 @@ class VaultService(object):
             timeout,
             metadata,
             _registered_method=True)
+
+    @staticmethod
+    def UpdateSecret(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/vault.SecretManagementService/UpdateSecret',
+            vault__pb2.UpdateSecretRequest.SerializeToString,
+            vault__pb2.UpdateSecretResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def DeleteSecret(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/vault.SecretManagementService/DeleteSecret',
+            vault__pb2.DeleteSecretRequest.SerializeToString,
+            vault__pb2.DeleteSecretResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+
+class SecretRetrievalServiceStub(object):
+    """Secret Retrieval Service - Handles Retrieve and List operations
+    """
+
+    def __init__(self, channel):
+        """Constructor.
+
+        Args:
+            channel: A grpc.Channel.
+        """
+        self.RetrieveSecret = channel.unary_unary(
+                '/vault.SecretRetrievalService/RetrieveSecret',
+                request_serializer=vault__pb2.RetrieveSecretRequest.SerializeToString,
+                response_deserializer=vault__pb2.RetrieveSecretResponse.FromString,
+                _registered_method=True)
+        self.ListSecrets = channel.unary_unary(
+                '/vault.SecretRetrievalService/ListSecrets',
+                request_serializer=vault__pb2.ListSecretsRequest.SerializeToString,
+                response_deserializer=vault__pb2.ListSecretsResponse.FromString,
+                _registered_method=True)
+
+
+class SecretRetrievalServiceServicer(object):
+    """Secret Retrieval Service - Handles Retrieve and List operations
+    """
+
+    def RetrieveSecret(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ListSecrets(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+
+def add_SecretRetrievalServiceServicer_to_server(servicer, server):
+    rpc_method_handlers = {
+            'RetrieveSecret': grpc.unary_unary_rpc_method_handler(
+                    servicer.RetrieveSecret,
+                    request_deserializer=vault__pb2.RetrieveSecretRequest.FromString,
+                    response_serializer=vault__pb2.RetrieveSecretResponse.SerializeToString,
+            ),
+            'ListSecrets': grpc.unary_unary_rpc_method_handler(
+                    servicer.ListSecrets,
+                    request_deserializer=vault__pb2.ListSecretsRequest.FromString,
+                    response_serializer=vault__pb2.ListSecretsResponse.SerializeToString,
+            ),
+    }
+    generic_handler = grpc.method_handlers_generic_handler(
+            'vault.SecretRetrievalService', rpc_method_handlers)
+    server.add_generic_rpc_handlers((generic_handler,))
+    server.add_registered_method_handlers('vault.SecretRetrievalService', rpc_method_handlers)
+
+
+ # This class is part of an EXPERIMENTAL API.
+class SecretRetrievalService(object):
+    """Secret Retrieval Service - Handles Retrieve and List operations
+    """
 
     @staticmethod
     def RetrieveSecret(request,
@@ -148,7 +275,7 @@ class VaultService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/vault.VaultService/RetrieveSecret',
+            '/vault.SecretRetrievalService/RetrieveSecret',
             vault__pb2.RetrieveSecretRequest.SerializeToString,
             vault__pb2.RetrieveSecretResponse.FromString,
             options,
@@ -160,6 +287,247 @@ class VaultService(object):
             timeout,
             metadata,
             _registered_method=True)
+
+    @staticmethod
+    def ListSecrets(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/vault.SecretRetrievalService/ListSecrets',
+            vault__pb2.ListSecretsRequest.SerializeToString,
+            vault__pb2.ListSecretsResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+
+class AccessControlServiceStub(object):
+    """Access Control Service - Handles Share operation
+    """
+
+    def __init__(self, channel):
+        """Constructor.
+
+        Args:
+            channel: A grpc.Channel.
+        """
+        self.ShareSecret = channel.unary_unary(
+                '/vault.AccessControlService/ShareSecret',
+                request_serializer=vault__pb2.ShareSecretRequest.SerializeToString,
+                response_deserializer=vault__pb2.ShareSecretResponse.FromString,
+                _registered_method=True)
+        self.CheckAccess = channel.unary_unary(
+                '/vault.AccessControlService/CheckAccess',
+                request_serializer=vault__pb2.CheckAccessRequest.SerializeToString,
+                response_deserializer=vault__pb2.CheckAccessResponse.FromString,
+                _registered_method=True)
+
+
+class AccessControlServiceServicer(object):
+    """Access Control Service - Handles Share operation
+    """
+
+    def ShareSecret(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def CheckAccess(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+
+def add_AccessControlServiceServicer_to_server(servicer, server):
+    rpc_method_handlers = {
+            'ShareSecret': grpc.unary_unary_rpc_method_handler(
+                    servicer.ShareSecret,
+                    request_deserializer=vault__pb2.ShareSecretRequest.FromString,
+                    response_serializer=vault__pb2.ShareSecretResponse.SerializeToString,
+            ),
+            'CheckAccess': grpc.unary_unary_rpc_method_handler(
+                    servicer.CheckAccess,
+                    request_deserializer=vault__pb2.CheckAccessRequest.FromString,
+                    response_serializer=vault__pb2.CheckAccessResponse.SerializeToString,
+            ),
+    }
+    generic_handler = grpc.method_handlers_generic_handler(
+            'vault.AccessControlService', rpc_method_handlers)
+    server.add_generic_rpc_handlers((generic_handler,))
+    server.add_registered_method_handlers('vault.AccessControlService', rpc_method_handlers)
+
+
+ # This class is part of an EXPERIMENTAL API.
+class AccessControlService(object):
+    """Access Control Service - Handles Share operation
+    """
+
+    @staticmethod
+    def ShareSecret(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/vault.AccessControlService/ShareSecret',
+            vault__pb2.ShareSecretRequest.SerializeToString,
+            vault__pb2.ShareSecretResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def CheckAccess(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/vault.AccessControlService/CheckAccess',
+            vault__pb2.CheckAccessRequest.SerializeToString,
+            vault__pb2.CheckAccessResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+
+class ReplicationServiceStub(object):
+    """Replication Service - Internal service for data consistency across nodes
+    """
+
+    def __init__(self, channel):
+        """Constructor.
+
+        Args:
+            channel: A grpc.Channel.
+        """
+        self.ReplicateSecret = channel.unary_unary(
+                '/vault.ReplicationService/ReplicateSecret',
+                request_serializer=vault__pb2.ReplicateSecretRequest.SerializeToString,
+                response_deserializer=vault__pb2.ReplicateSecretResponse.FromString,
+                _registered_method=True)
+        self.ReplicateUpdate = channel.unary_unary(
+                '/vault.ReplicationService/ReplicateUpdate',
+                request_serializer=vault__pb2.ReplicateUpdateRequest.SerializeToString,
+                response_deserializer=vault__pb2.ReplicateUpdateResponse.FromString,
+                _registered_method=True)
+        self.ReplicateDeletion = channel.unary_unary(
+                '/vault.ReplicationService/ReplicateDeletion',
+                request_serializer=vault__pb2.ReplicateDeletionRequest.SerializeToString,
+                response_deserializer=vault__pb2.ReplicateDeletionResponse.FromString,
+                _registered_method=True)
+        self.ReplicateShare = channel.unary_unary(
+                '/vault.ReplicationService/ReplicateShare',
+                request_serializer=vault__pb2.ReplicateShareRequest.SerializeToString,
+                response_deserializer=vault__pb2.ReplicateShareResponse.FromString,
+                _registered_method=True)
+
+
+class ReplicationServiceServicer(object):
+    """Replication Service - Internal service for data consistency across nodes
+    """
+
+    def ReplicateSecret(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ReplicateUpdate(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ReplicateDeletion(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ReplicateShare(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+
+def add_ReplicationServiceServicer_to_server(servicer, server):
+    rpc_method_handlers = {
+            'ReplicateSecret': grpc.unary_unary_rpc_method_handler(
+                    servicer.ReplicateSecret,
+                    request_deserializer=vault__pb2.ReplicateSecretRequest.FromString,
+                    response_serializer=vault__pb2.ReplicateSecretResponse.SerializeToString,
+            ),
+            'ReplicateUpdate': grpc.unary_unary_rpc_method_handler(
+                    servicer.ReplicateUpdate,
+                    request_deserializer=vault__pb2.ReplicateUpdateRequest.FromString,
+                    response_serializer=vault__pb2.ReplicateUpdateResponse.SerializeToString,
+            ),
+            'ReplicateDeletion': grpc.unary_unary_rpc_method_handler(
+                    servicer.ReplicateDeletion,
+                    request_deserializer=vault__pb2.ReplicateDeletionRequest.FromString,
+                    response_serializer=vault__pb2.ReplicateDeletionResponse.SerializeToString,
+            ),
+            'ReplicateShare': grpc.unary_unary_rpc_method_handler(
+                    servicer.ReplicateShare,
+                    request_deserializer=vault__pb2.ReplicateShareRequest.FromString,
+                    response_serializer=vault__pb2.ReplicateShareResponse.SerializeToString,
+            ),
+    }
+    generic_handler = grpc.method_handlers_generic_handler(
+            'vault.ReplicationService', rpc_method_handlers)
+    server.add_generic_rpc_handlers((generic_handler,))
+    server.add_registered_method_handlers('vault.ReplicationService', rpc_method_handlers)
+
+
+ # This class is part of an EXPERIMENTAL API.
+class ReplicationService(object):
+    """Replication Service - Internal service for data consistency across nodes
+    """
 
     @staticmethod
     def ReplicateSecret(request,
@@ -175,9 +543,90 @@ class VaultService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/vault.VaultService/ReplicateSecret',
+            '/vault.ReplicationService/ReplicateSecret',
             vault__pb2.ReplicateSecretRequest.SerializeToString,
             vault__pb2.ReplicateSecretResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def ReplicateUpdate(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/vault.ReplicationService/ReplicateUpdate',
+            vault__pb2.ReplicateUpdateRequest.SerializeToString,
+            vault__pb2.ReplicateUpdateResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def ReplicateDeletion(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/vault.ReplicationService/ReplicateDeletion',
+            vault__pb2.ReplicateDeletionRequest.SerializeToString,
+            vault__pb2.ReplicateDeletionResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def ReplicateShare(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/vault.ReplicationService/ReplicateShare',
+            vault__pb2.ReplicateShareRequest.SerializeToString,
+            vault__pb2.ReplicateShareResponse.FromString,
             options,
             channel_credentials,
             insecure,

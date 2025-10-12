@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0bvault.proto\x12\x05vault\",\n\x10\x41\x64\x64SecretRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\t\"0\n\x11\x41\x64\x64SecretResponse\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\t\"#\n\x15RetrieveSecretRequest\x12\n\n\x02id\x18\x01 \x01(\t\"2\n\x16RetrieveSecretResponse\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\t\"2\n\x16ReplicateSecretRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\t\"*\n\x17ReplicateSecretResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x32\xf5\x01\n\x0cVaultService\x12@\n\tAddSecret\x12\x17.vault.AddSecretRequest\x1a\x18.vault.AddSecretResponse\"\x00\x12O\n\x0eRetrieveSecret\x12\x1c.vault.RetrieveSecretRequest\x1a\x1d.vault.RetrieveSecretResponse\"\x00\x12R\n\x0fReplicateSecret\x12\x1d.vault.ReplicateSecretRequest\x1a\x1e.vault.ReplicateSecretResponse\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0bvault.proto\x12\x05vault\"F\n\x10\x41\x64\x64SecretRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x13\n\x0bsecret_name\x18\x02 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x03 \x01(\t\"H\n\x11\x41\x64\x64SecretResponse\x12\x11\n\tsecret_id\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x0f\n\x07success\x18\x03 \x01(\x08\";\n\x15RetrieveSecretRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x11\n\tsecret_id\x18\x02 \x01(\t\"J\n\x16RetrieveSecretResponse\x12\x11\n\tsecret_id\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\t\x12\x0f\n\x07success\x18\x03 \x01(\x08\"G\n\x13UpdateSecretRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x11\n\tsecret_id\x18\x02 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x03 \x01(\t\"K\n\x14UpdateSecretResponse\x12\x11\n\tsecret_id\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x0f\n\x07success\x18\x03 \x01(\x08\"9\n\x13\x44\x65leteSecretRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x11\n\tsecret_id\x18\x02 \x01(\t\"K\n\x14\x44\x65leteSecretResponse\x12\x11\n\tsecret_id\x18\x01 \x01(\t\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x0f\n\x07success\x18\x03 \x01(\x08\"%\n\x12ListSecretsRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\"s\n\x0eSecretMetadata\x12\x11\n\tsecret_id\x18\x01 \x01(\t\x12\x13\n\x0bsecret_name\x18\x02 \x01(\t\x12\x12\n\ncreated_at\x18\x03 \x01(\t\x12\x12\n\nupdated_at\x18\x04 \x01(\t\x12\x11\n\tis_shared\x18\x05 \x01(\x08\"R\n\x13ListSecretsResponse\x12&\n\x07secrets\x18\x01 \x03(\x0b\x32\x15.vault.SecretMetadata\x12\x13\n\x0btotal_count\x18\x02 \x01(\x05\"Q\n\x12ShareSecretRequest\x12\x10\n\x08owner_id\x18\x01 \x01(\t\x12\x11\n\tsecret_id\x18\x02 \x01(\t\x12\x16\n\x0etarget_user_id\x18\x03 \x01(\t\"7\n\x13ShareSecretResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x0f\n\x07success\x18\x02 \x01(\x08\"8\n\x12\x43heckAccessRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x11\n\tsecret_id\x18\x02 \x01(\t\";\n\x13\x43heckAccessResponse\x12\x12\n\nhas_access\x18\x01 \x01(\x08\x12\x10\n\x08owner_id\x18\x02 \x01(\t\"s\n\x16ReplicateSecretRequest\x12\x11\n\tsecret_id\x18\x01 \x01(\t\x12\x0f\n\x07user_id\x18\x02 \x01(\t\x12\x13\n\x0bsecret_name\x18\x03 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x04 \x01(\t\x12\x12\n\ncreated_at\x18\x05 \x01(\t\"*\n\x17ReplicateSecretResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"M\n\x16ReplicateUpdateRequest\x12\x11\n\tsecret_id\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\t\x12\x12\n\nupdated_at\x18\x03 \x01(\t\"*\n\x17ReplicateUpdateResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"-\n\x18ReplicateDeletionRequest\x12\x11\n\tsecret_id\x18\x01 \x01(\t\",\n\x19ReplicateDeletionResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\"T\n\x15ReplicateShareRequest\x12\x11\n\tsecret_id\x18\x01 \x01(\t\x12\x10\n\x08owner_id\x18\x02 \x01(\t\x12\x16\n\x0etarget_user_id\x18\x03 \x01(\t\")\n\x16ReplicateShareResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x32\xf1\x01\n\x17SecretManagementService\x12@\n\tAddSecret\x12\x17.vault.AddSecretRequest\x1a\x18.vault.AddSecretResponse\"\x00\x12I\n\x0cUpdateSecret\x12\x1a.vault.UpdateSecretRequest\x1a\x1b.vault.UpdateSecretResponse\"\x00\x12I\n\x0c\x44\x65leteSecret\x12\x1a.vault.DeleteSecretRequest\x1a\x1b.vault.DeleteSecretResponse\"\x00\x32\xb1\x01\n\x16SecretRetrievalService\x12O\n\x0eRetrieveSecret\x12\x1c.vault.RetrieveSecretRequest\x1a\x1d.vault.RetrieveSecretResponse\"\x00\x12\x46\n\x0bListSecrets\x12\x19.vault.ListSecretsRequest\x1a\x1a.vault.ListSecretsResponse\"\x00\x32\xa6\x01\n\x14\x41\x63\x63\x65ssControlService\x12\x46\n\x0bShareSecret\x12\x19.vault.ShareSecretRequest\x1a\x1a.vault.ShareSecretResponse\"\x00\x12\x46\n\x0b\x43heckAccess\x12\x19.vault.CheckAccessRequest\x1a\x1a.vault.CheckAccessResponse\"\x00\x32\xe7\x02\n\x12ReplicationService\x12R\n\x0fReplicateSecret\x12\x1d.vault.ReplicateSecretRequest\x1a\x1e.vault.ReplicateSecretResponse\"\x00\x12R\n\x0fReplicateUpdate\x12\x1d.vault.ReplicateUpdateRequest\x1a\x1e.vault.ReplicateUpdateResponse\"\x00\x12X\n\x11ReplicateDeletion\x12\x1f.vault.ReplicateDeletionRequest\x1a .vault.ReplicateDeletionResponse\"\x00\x12O\n\x0eReplicateShare\x12\x1c.vault.ReplicateShareRequest\x1a\x1d.vault.ReplicateShareResponse\"\x00\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -32,17 +32,57 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'vault_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
   _globals['_ADDSECRETREQUEST']._serialized_start=22
-  _globals['_ADDSECRETREQUEST']._serialized_end=66
-  _globals['_ADDSECRETRESPONSE']._serialized_start=68
-  _globals['_ADDSECRETRESPONSE']._serialized_end=116
-  _globals['_RETRIEVESECRETREQUEST']._serialized_start=118
-  _globals['_RETRIEVESECRETREQUEST']._serialized_end=153
-  _globals['_RETRIEVESECRETRESPONSE']._serialized_start=155
-  _globals['_RETRIEVESECRETRESPONSE']._serialized_end=205
-  _globals['_REPLICATESECRETREQUEST']._serialized_start=207
-  _globals['_REPLICATESECRETREQUEST']._serialized_end=257
-  _globals['_REPLICATESECRETRESPONSE']._serialized_start=259
-  _globals['_REPLICATESECRETRESPONSE']._serialized_end=301
-  _globals['_VAULTSERVICE']._serialized_start=304
-  _globals['_VAULTSERVICE']._serialized_end=549
+  _globals['_ADDSECRETREQUEST']._serialized_end=92
+  _globals['_ADDSECRETRESPONSE']._serialized_start=94
+  _globals['_ADDSECRETRESPONSE']._serialized_end=166
+  _globals['_RETRIEVESECRETREQUEST']._serialized_start=168
+  _globals['_RETRIEVESECRETREQUEST']._serialized_end=227
+  _globals['_RETRIEVESECRETRESPONSE']._serialized_start=229
+  _globals['_RETRIEVESECRETRESPONSE']._serialized_end=303
+  _globals['_UPDATESECRETREQUEST']._serialized_start=305
+  _globals['_UPDATESECRETREQUEST']._serialized_end=376
+  _globals['_UPDATESECRETRESPONSE']._serialized_start=378
+  _globals['_UPDATESECRETRESPONSE']._serialized_end=453
+  _globals['_DELETESECRETREQUEST']._serialized_start=455
+  _globals['_DELETESECRETREQUEST']._serialized_end=512
+  _globals['_DELETESECRETRESPONSE']._serialized_start=514
+  _globals['_DELETESECRETRESPONSE']._serialized_end=589
+  _globals['_LISTSECRETSREQUEST']._serialized_start=591
+  _globals['_LISTSECRETSREQUEST']._serialized_end=628
+  _globals['_SECRETMETADATA']._serialized_start=630
+  _globals['_SECRETMETADATA']._serialized_end=745
+  _globals['_LISTSECRETSRESPONSE']._serialized_start=747
+  _globals['_LISTSECRETSRESPONSE']._serialized_end=829
+  _globals['_SHARESECRETREQUEST']._serialized_start=831
+  _globals['_SHARESECRETREQUEST']._serialized_end=912
+  _globals['_SHARESECRETRESPONSE']._serialized_start=914
+  _globals['_SHARESECRETRESPONSE']._serialized_end=969
+  _globals['_CHECKACCESSREQUEST']._serialized_start=971
+  _globals['_CHECKACCESSREQUEST']._serialized_end=1027
+  _globals['_CHECKACCESSRESPONSE']._serialized_start=1029
+  _globals['_CHECKACCESSRESPONSE']._serialized_end=1088
+  _globals['_REPLICATESECRETREQUEST']._serialized_start=1090
+  _globals['_REPLICATESECRETREQUEST']._serialized_end=1205
+  _globals['_REPLICATESECRETRESPONSE']._serialized_start=1207
+  _globals['_REPLICATESECRETRESPONSE']._serialized_end=1249
+  _globals['_REPLICATEUPDATEREQUEST']._serialized_start=1251
+  _globals['_REPLICATEUPDATEREQUEST']._serialized_end=1328
+  _globals['_REPLICATEUPDATERESPONSE']._serialized_start=1330
+  _globals['_REPLICATEUPDATERESPONSE']._serialized_end=1372
+  _globals['_REPLICATEDELETIONREQUEST']._serialized_start=1374
+  _globals['_REPLICATEDELETIONREQUEST']._serialized_end=1419
+  _globals['_REPLICATEDELETIONRESPONSE']._serialized_start=1421
+  _globals['_REPLICATEDELETIONRESPONSE']._serialized_end=1465
+  _globals['_REPLICATESHAREREQUEST']._serialized_start=1467
+  _globals['_REPLICATESHAREREQUEST']._serialized_end=1551
+  _globals['_REPLICATESHARERESPONSE']._serialized_start=1553
+  _globals['_REPLICATESHARERESPONSE']._serialized_end=1594
+  _globals['_SECRETMANAGEMENTSERVICE']._serialized_start=1597
+  _globals['_SECRETMANAGEMENTSERVICE']._serialized_end=1838
+  _globals['_SECRETRETRIEVALSERVICE']._serialized_start=1841
+  _globals['_SECRETRETRIEVALSERVICE']._serialized_end=2018
+  _globals['_ACCESSCONTROLSERVICE']._serialized_start=2021
+  _globals['_ACCESSCONTROLSERVICE']._serialized_end=2187
+  _globals['_REPLICATIONSERVICE']._serialized_start=2190
+  _globals['_REPLICATIONSERVICE']._serialized_end=2549
 # @@protoc_insertion_point(module_scope)

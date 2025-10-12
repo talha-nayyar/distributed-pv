@@ -41,39 +41,203 @@ services:
       - OTHER_NODES=http://http-node1:5000,http://http-node2:5000,http://http-node3:5000,http://http-node4:5000
 
   # --- Architecture B: Microservices gRPC Cluster ---
-  grpc-node1:
+  # Each node runs all microservices (API Gateway, SecretMgmt, Retrieval, AccessControl, Replication)
+
+  # Node 1 - Complete microservices stack
+  grpc-node1-gateway:
     build: .
-    command: python grpc_server.py
+    command: python api_gateway.py
     ports:
-      - "50051:50051"
+      - "50050:50050"
     environment:
-      - PORT=50051
-      - OTHER_NODES_ADDR=grpc-node2:50051,grpc-node3:50051,grpc-node4:50051,grpc-node5:50051
-  
-  grpc-node2:
-    build: .
-    command: python grpc_server.py
-    environment:
-      - PORT=50051
-      - OTHER_NODES_ADDR=grpc-node1:50051,grpc-node3:50051,grpc-node4:50051,grpc-node5:50051
+      - PORT=50050
+      - SECRET_MGMT_ADDR=grpc-node1-secret-mgmt:50051
+      - SECRET_RETRIEVAL_ADDR=grpc-node1-retrieval:50052
+      - ACCESS_CONTROL_ADDR=grpc-node1-access:50053
+    depends_on:
+      - grpc-node1-secret-mgmt
+      - grpc-node1-retrieval
+      - grpc-node1-access
 
-  grpc-node3:
+  grpc-node1-secret-mgmt:
     build: .
-    command: python grpc_server.py
+    command: python secret_management_service.py
     environment:
       - PORT=50051
-      - OTHER_NODES_ADDR=grpc-node1:50051,grpc-node2:50051,grpc-node4:50051,grpc-node5:50051
+      - REPLICATION_NODES=grpc-node2-replication:50054,grpc-node3-replication:50054,grpc-node4-replication:50054,grpc-node5-replication:50054
 
-  grpc-node4:
+  grpc-node1-retrieval:
     build: .
-    command: python grpc_server.py
+    command: python secret_retrieval_service.py
     environment:
-      - PORT=50051
-      - OTHER_NODES_ADDR=grpc-node1:50051,grpc-node2:50051,grpc-node3:50051,grpc-node5:50051
+      - PORT=50052
+      - ACCESS_CONTROL_ADDR=grpc-node1-access:50053
 
-  grpc-node5:
+  grpc-node1-access:
     build: .
-    command: python grpc_server.py
+    command: python access_control_service.py
+    environment:
+      - PORT=50053
+      - REPLICATION_NODES=grpc-node2-replication:50054,grpc-node3-replication:50054,grpc-node4-replication:50054,grpc-node5-replication:50054
+
+  grpc-node1-replication:
+    build: .
+    command: python replication_service.py
+    environment:
+      - PORT=50054
+
+  # Node 2 - Complete microservices stack
+  grpc-node2-gateway:
+    build: .
+    command: python api_gateway.py
+    ports:
+      - "50060:50050"
+    environment:
+      - PORT=50050
+      - SECRET_MGMT_ADDR=grpc-node2-secret-mgmt:50051
+      - SECRET_RETRIEVAL_ADDR=grpc-node2-retrieval:50052
+      - ACCESS_CONTROL_ADDR=grpc-node2-access:50053
+
+  grpc-node2-secret-mgmt:
+    build: .
+    command: python secret_management_service.py
     environment:
       - PORT=50051
-      - OTHER_NODES_ADDR=grpc-node1:50051,grpc-node2:50051,grpc-node3:50051,grpc-node4:50051
+      - REPLICATION_NODES=grpc-node1-replication:50054,grpc-node3-replication:50054,grpc-node4-replication:50054,grpc-node5-replication:50054
+
+  grpc-node2-retrieval:
+    build: .
+    command: python secret_retrieval_service.py
+    environment:
+      - PORT=50052
+      - ACCESS_CONTROL_ADDR=grpc-node2-access:50053
+
+  grpc-node2-access:
+    build: .
+    command: python access_control_service.py
+    environment:
+      - PORT=50053
+      - REPLICATION_NODES=grpc-node1-replication:50054,grpc-node3-replication:50054,grpc-node4-replication:50054,grpc-node5-replication:50054
+
+  grpc-node2-replication:
+    build: .
+    command: python replication_service.py
+    environment:
+      - PORT=50054
+
+  # Node 3 - Complete microservices stack
+  grpc-node3-gateway:
+    build: .
+    command: python api_gateway.py
+    ports:
+      - "50070:50050"
+    environment:
+      - PORT=50050
+      - SECRET_MGMT_ADDR=grpc-node3-secret-mgmt:50051
+      - SECRET_RETRIEVAL_ADDR=grpc-node3-retrieval:50052
+      - ACCESS_CONTROL_ADDR=grpc-node3-access:50053
+
+  grpc-node3-secret-mgmt:
+    build: .
+    command: python secret_management_service.py
+    environment:
+      - PORT=50051
+      - REPLICATION_NODES=grpc-node1-replication:50054,grpc-node2-replication:50054,grpc-node4-replication:50054,grpc-node5-replication:50054
+
+  grpc-node3-retrieval:
+    build: .
+    command: python secret_retrieval_service.py
+    environment:
+      - PORT=50052
+      - ACCESS_CONTROL_ADDR=grpc-node3-access:50053
+
+  grpc-node3-access:
+    build: .
+    command: python access_control_service.py
+    environment:
+      - PORT=50053
+      - REPLICATION_NODES=grpc-node1-replication:50054,grpc-node2-replication:50054,grpc-node4-replication:50054,grpc-node5-replication:50054
+
+  grpc-node3-replication:
+    build: .
+    command: python replication_service.py
+    environment:
+      - PORT=50054
+
+  # Node 4 - Complete microservices stack
+  grpc-node4-gateway:
+    build: .
+    command: python api_gateway.py
+    ports:
+      - "50080:50050"
+    environment:
+      - PORT=50050
+      - SECRET_MGMT_ADDR=grpc-node4-secret-mgmt:50051
+      - SECRET_RETRIEVAL_ADDR=grpc-node4-retrieval:50052
+      - ACCESS_CONTROL_ADDR=grpc-node4-access:50053
+
+  grpc-node4-secret-mgmt:
+    build: .
+    command: python secret_management_service.py
+    environment:
+      - PORT=50051
+      - REPLICATION_NODES=grpc-node1-replication:50054,grpc-node2-replication:50054,grpc-node3-replication:50054,grpc-node5-replication:50054
+
+  grpc-node4-retrieval:
+    build: .
+    command: python secret_retrieval_service.py
+    environment:
+      - PORT=50052
+      - ACCESS_CONTROL_ADDR=grpc-node4-access:50053
+
+  grpc-node4-access:
+    build: .
+    command: python access_control_service.py
+    environment:
+      - PORT=50053
+      - REPLICATION_NODES=grpc-node1-replication:50054,grpc-node2-replication:50054,grpc-node3-replication:50054,grpc-node5-replication:50054
+
+  grpc-node4-replication:
+    build: .
+    command: python replication_service.py
+    environment:
+      - PORT=50054
+
+  # Node 5 - Complete microservices stack
+  grpc-node5-gateway:
+    build: .
+    command: python api_gateway.py
+    ports:
+      - "50090:50050"
+    environment:
+      - PORT=50050
+      - SECRET_MGMT_ADDR=grpc-node5-secret-mgmt:50051
+      - SECRET_RETRIEVAL_ADDR=grpc-node5-retrieval:50052
+      - ACCESS_CONTROL_ADDR=grpc-node5-access:50053
+
+  grpc-node5-secret-mgmt:
+    build: .
+    command: python secret_management_service.py
+    environment:
+      - PORT=50051
+      - REPLICATION_NODES=grpc-node1-replication:50054,grpc-node2-replication:50054,grpc-node3-replication:50054,grpc-node4-replication:50054
+
+  grpc-node5-retrieval:
+    build: .
+    command: python secret_retrieval_service.py
+    environment:
+      - PORT=50052
+      - ACCESS_CONTROL_ADDR=grpc-node5-access:50053
+
+  grpc-node5-access:
+    build: .
+    command: python access_control_service.py
+    environment:
+      - PORT=50053
+      - REPLICATION_NODES=grpc-node1-replication:50054,grpc-node2-replication:50054,grpc-node3-replication:50054,grpc-node4-replication:50054
+
+  grpc-node5-replication:
+    build: .
+    command: python replication_service.py
+    environment:
+      - PORT=50054
