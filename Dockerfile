@@ -1,5 +1,5 @@
 # Dockerfile
-FROM python:3.11-slim
+FROM python:3.11
 
 WORKDIR /app
 
@@ -11,7 +11,8 @@ RUN pip install --no-cache-dir \
     pycryptodome==3.19.0 \
     protobuf>=4.21.0 \
     grpcio>=1.60.0 \
-    grpcio-tools>=1.60.0
+    grpcio-tools>=1.60.0 \
+    redis==5.0.1
 
 # Copy application files
 COPY . .

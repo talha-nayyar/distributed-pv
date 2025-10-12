@@ -2,6 +2,11 @@
 version: '3.8'
 
 services:
+  #--- unified mem sharing ---
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
   # --- Architecture A: Monolithic HTTP Cluster ---
   http-node1:
     build: .
@@ -65,6 +70,7 @@ services:
     environment:
       - PORT=50051
       - REPLICATION_NODES=grpc-node2-replication:50054,grpc-node3-replication:50054,grpc-node4-replication:50054,grpc-node5-replication:50054
+      - REDIS_HOST=redis
 
   grpc-node1-retrieval:
     build: .
@@ -72,6 +78,7 @@ services:
     environment:
       - PORT=50052
       - ACCESS_CONTROL_ADDR=grpc-node1-access:50053
+      - REDIS_HOST=redis
 
   grpc-node1-access:
     build: .
@@ -79,12 +86,14 @@ services:
     environment:
       - PORT=50053
       - REPLICATION_NODES=grpc-node2-replication:50054,grpc-node3-replication:50054,grpc-node4-replication:50054,grpc-node5-replication:50054
+      - REDIS_HOST=redis
 
   grpc-node1-replication:
     build: .
     command: python replication_service.py
     environment:
       - PORT=50054
+      - REDIS_HOST=redis
 
   # Node 2 - Complete microservices stack
   grpc-node2-gateway:
@@ -241,3 +250,4 @@ services:
     command: python replication_service.py
     environment:
       - PORT=50054
+  
